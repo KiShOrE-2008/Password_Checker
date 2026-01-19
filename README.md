@@ -47,15 +47,15 @@ The analyzer evaluates the password based on:
 
 ## 📦 Installation
 
-1. Clone the repository (replace `<your-github-username>` with the actual GitHub username or organization name):
+1. Clone the repository:
    ```bash
-   git clone https://github.com/<your-github-username>/PasswordChecker.git
+   git clone https://github.com/KiShOrE-2008/Password_Checker.git
    cd PasswordChecker
    ```
 
 2. Install dependencies:
    ```bash
-   pip install pwinput colorama
+   pip install -r requirements.txt
    ```
 
 > ⚠️ **Note:** Sound alerts work only on Windows due to `winsound`.
