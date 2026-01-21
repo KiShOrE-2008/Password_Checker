@@ -1,151 +1,119 @@
-🔐 Password Strength Analyzer (Python)
+# 🔐 Password Strength Analyzer (Python)
 
 A security-focused Python CLI tool that evaluates password strength using realistic entropy modeling, human-pattern detection, and real-world crack-time estimation — not misleading length checks.
 
 Built for cybersecurity learning, secure coding practice, and defensive security demonstrations.
 
-🚀 Why This Project?
+## 🚀 Why This Project?
 
-Most password checkers give false confidence.
-This tool takes a realistic attacker mindset, combining entropy math with common human password weaknesses.
+Most password checkers give false confidence. This tool takes a realistic attacker mindset, combining entropy math with common human password weaknesses.
 
 If you're learning cybersecurity, this project shows you actually understand password security — not just regex rules.
 
-✨ Features
-🔒 Secure Input & Hashing
+## ✨ Features
 
-Hidden password input using pwinput
+### 🔒 Secure Input & Hashing
+- Hidden password input using `pwinput`
+- Optional password reveal
+- PBKDF2-HMAC-SHA256
+- 128-bit random salt
+- 100,000 iterations
+- Timing-safe hash comparison
 
-Optional password reveal
+### 📊 Realistic Strength Analysis
+- True entropy calculation (log₂)
+- Character pool estimation
+- Unique character ratio penalty
+- Pattern-based entropy reduction
 
-PBKDF2-HMAC-SHA256
-
-128-bit random salt
-
-100,000 iterations
-
-Timing-safe hash comparison
-
-📊 Realistic Strength Analysis
-
-True entropy calculation (log₂)
-
-Character pool estimation
-
-Unique character ratio penalty
-
-Pattern-based entropy reduction
-
-🧠 Human Pattern Detection
-
+### 🧠 Human Pattern Detection
 Detects common weaknesses:
+- Character repetition (aaaa, 1111)
+- Sequential patterns (abc, 123)
+- Keyboard patterns (qwerty, asdf)
 
-Character repetition (aaaa, 1111)
+### 📈 Clear Strength Visualization
+- ASCII strength bar
+- Color-coded output
+- Strength levels:
+  - Very Weak
+  - Weak
+  - Moderate
+  - Strong
+  - Very Strong
 
-Sequential patterns (abc, 123)
-
-Keyboard patterns (qwerty, asdf)
-
-📈 Clear Strength Visualization
-
-ASCII strength bar
-
-Color-coded output
-
-Strength levels:
-
-Very Weak
-
-Weak
-
-Moderate
-
-Strong
-
-Very Strong
-
-⏱️ Real-World Crack Time Estimation
-
+### ⏱️ Real-World Crack Time Estimation
 Crack time is estimated across multiple attacker models, not a single misleading number:
 
-Attack Scenario	Guess Rate
-Online (rate-limited)	100 guesses/sec
-Online (no limits)	1,000 guesses/sec
-Offline (PBKDF2 hashes)	10,000 guesses/sec
-Offline GPU (worst case)	1,000,000,000 guesses/sec
+| Attack Scenario | Guess Rate |
+| :--- | :--- |
+| Online (rate-limited) | 100 guesses/sec |
+| Online (no limits) | 1,000 guesses/sec |
+| Offline (PBKDF2 hashes) | 10,000 guesses/sec |
+| Offline GPU (worst case) | 1,000,000,000 guesses/sec |
 
-⚠️ Crack times are theoretical estimates, not guarantees.
+> [!WARNING]
+> Crack times are theoretical estimates, not guarantees.
 
-🧠 How Strength Is Measured
+## 🧠 How Strength Is Measured
 
 Passwords are evaluated using:
+- Length (minimum recommended: 8)
+- Uppercase characters
+- Lowercase characters
+- Numbers
+- Special characters
+- Entropy calculation (log₂)
+- Unique character ratio
+- Pattern penalties (repetition, sequences, keyboard layouts)
 
-Length (minimum recommended: 8)
+### 📊 Strength Classification
 
-Uppercase characters
+| Entropy (bits) | Rating |
+| :--- | :--- |
+| < 30 | Very Weak 🔴 |
+| 30 – 44 | Weak 🔴 |
+| 45 – 59 | Moderate 🟡 |
+| 60 – 79 | Strong 🔵 |
+| ≥ 80 | Very Strong 🟢 |
 
-Lowercase characters
+## 🛠 Tech Stack
 
-Numbers
+- **Language**: Python 3.x
+- **Libraries**:
+  - `math`
+  - `pwinput`
+  - `colorama`
+  - `hashlib`
+  - `hmac`
+  - `os`
+  - `time`
 
-Special characters
+## 📦 Installation
 
-Entropy calculation (log₂)
-
-Unique character ratio
-
-Pattern penalties (repetition, sequences, keyboard layouts)
-
-📊 Strength Classification
-Entropy (bits)	Rating
-< 30	Very Weak 🔴
-30 – 44	Weak 🔴
-45 – 59	Moderate 🟡
-60 – 79	Strong 🔵
-≥ 80	Very Strong 🟢
-🛠 Tech Stack
-
-Language: Python 3.x
-
-Libraries:
-
-math
-
-pwinput
-
-colorama
-
-hashlib
-
-hmac
-
-os
-
-time
-
-📦 Installation
+```bash
 git clone https://github.com/KiShOrE-2008/Password_Checker.git
 cd Password_Checker
 pip install pwinput colorama
+```
 
-▶️ Usage
+## ▶️ Usage
+
+```bash
 python password_checker.py
+```
 
-Program Flow
+### Program Flow
+1. Enter password (hidden input)
+2. Optional password reveal
+3. Secure hashing (PBKDF2)
+4. Strength analysis
+5. Entropy, strength bar, crack times, and warnings displayed
+6. Improvement suggestions shown (if needed)
 
-Enter password (hidden input)
+## 📸 Sample Output
 
-Optional password reveal
-
-Secure hashing (PBKDF2)
-
-Strength analysis
-
-Entropy, strength bar, crack times, and warnings displayed
-
-Improvement suggestions shown (if needed)
-
-📸 Sample Output
+```text
 Entropy: 58.7 bits
 
 Password Strength:
@@ -161,37 +129,30 @@ Pattern Analysis:
 - Sequential pattern detected (123)
 
 Overall Strength: Moderate
+```
 
-⚠️ Limitations
+## ⚠️ Limitations
 
-Crack times are theoretical
+- Crack times are theoretical
+- No dictionary or breached-password checks
+- CLI only (no GUI)
+- Not intended for production authentication systems
 
-No dictionary or breached-password checks
+## 🚀 Future Improvements
 
-CLI only (no GUI)
+- [ ] Dictionary & leetspeak detection
+- [ ] Breached-password database checks
+- [ ] Markov-chain entropy modeling
+- [ ] GUI / Web interface
+- [ ] Modular Python package
+- [ ] Configurable password policy engine
 
-Not intended for production authentication systems
-
-🚀 Future Improvements
-
-Dictionary & leetspeak detection
-
-Breached-password database checks
-
-Markov-chain entropy modeling
-
-GUI / Web interface
-
-Modular Python package
-
-Configurable password policy engine
-
-📄 License
+## 📄 License
 
 MIT License — free for learning, academic, and personal projects.
 
-👤 Author
+## 👤 Author
 
-Kishore K V
-B.Tech – Information Technology
-Cybersecurity & Python Enthusiast
+**Kishore K V**
+- B.Tech – Information Technology
+- Cybersecurity & Python Enthusiast
