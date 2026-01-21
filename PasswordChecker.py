@@ -3,6 +3,7 @@ import pwinput
 import time
 import hashlib
 import os
+import hmac
 from colorama import Fore, Style, init
 init(autoreset=True)
 
@@ -221,15 +222,15 @@ def hash_password(password, salt=None):
 
 def verify_password(password, salt, stored_hash):
     _, new_hash = hash_password(password, salt)
-    return new_hash == stored_hash
+    return hmac.compare_digest(new_hash, stored_hash)
 
 # ------------------ HASH STORAGE & VERIFICATION ------------------
 def hash_and_verify():
     print("Hashing password securely...")
     salt, password_hash = hash_password(in_pass)
-    time.sleep(2)
+    time.sleep(1.25)
     print("Verifying password using hash...")
-    time.sleep(2)
+    time.sleep(1.25)
     if verify_password(in_pass, salt, password_hash):
         print(Fore.GREEN + "Password verification successful (hash matched)")
     else:
@@ -245,6 +246,7 @@ print(" ")
 ch = input("Press Y to show the typed password or press Enter to continue: ")
 if ch.lower() == 'y':
     print("\nTyped Password:", in_pass, "\n")
+print(" ")
 hash_and_verify()
 print("\nAnalyzing password strength...")
 time.sleep(1)
