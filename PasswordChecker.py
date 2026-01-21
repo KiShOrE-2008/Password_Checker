@@ -120,33 +120,34 @@ def verify_password(password, salt, stored_hash):
     _, new_hash = hash_password(password, salt)
     return new_hash == stored_hash
 
+# ------------------ HASH STORAGE & VERIFICATION ------------------
+def hash_and_verify():
+    print("Hashing password securely...")
+    salt, password_hash = hash_password(in_pass)
+    time.sleep(2)
+    print("Verifying password using hash...")
+    time.sleep(2)
+    if verify_password(in_pass, salt, password_hash):
+        print(Fore.GREEN + "Password verification successful (hash matched)")
+    else:
+        print(Fore.RED + "Password verification failed (hash mismatch)")
+    print("\nSalt (hex):", salt.hex())
+    print("Password Hash (hex):", password_hash.hex())
+    print(" ")
+
 # ------------------ MAIN PROGRAM ------------------
 in_pass = pwinput.pwinput("Enter the password: ")
 print()
 
 ch = input("Press Y to show the typed password or press Enter to continue: ")
 if ch.lower() == 'y':
-    print("\nTyped Password:", in_pass)
-
-print("\nPassword Analysis:")
+    print("\nTyped Password:", in_pass, "\n")
+hash_and_verify()
+print("\nAnalyzing password strength...")
+time.sleep(1)
 start_time = time.time()
 
 check_password(in_pass)
 
 end_time = time.time()
 print(f"Time taken for analysis: {round(end_time - start_time, 2)} seconds\n")
-
-# ------------------ HASH STORAGE & VERIFICATION ------------------
-print("Hashing password securely...")
-salt, password_hash = hash_password(in_pass)
-
-print("Verifying password using hash...")
-
-if verify_password(in_pass, salt, password_hash):
-    print(Fore.GREEN + "Password verification successful (hash matched)")
-else:
-    print(Fore.RED + "Password verification failed (hash mismatch)")
-
-print("\nSalt (hex):", salt.hex())
-print("Password Hash (hex):", password_hash.hex())
-print(" ")
