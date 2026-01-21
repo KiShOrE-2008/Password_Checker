@@ -11,11 +11,7 @@ def has_repetition(password):
     return len(set(password)) <= len(password) * 0.6
 
 def has_sequence(password, length=3):
-    sequences = [
-        "abcdefghijklmnopqrstuvwxyz",
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-        "0123456789"
-    ]
+    sequences = ["abcdefghijklmnopqrstuvwxyz", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "0123456789"]
 
     for seq in sequences:
         for i in range(len(seq) - length + 1):
@@ -26,12 +22,7 @@ def has_sequence(password, length=3):
     return False
 
 def has_keyboard_pattern(password):
-    keyboard_rows = [
-        "qwertyuiop",
-        "asdfghjkl",
-        "zxcvbnm",
-        "1234567890"
-    ]
+    keyboard_rows = ["qwertyuiop", "asdfghjkl", "zxcvbnm", "1234567890"]
 
     pwd = password.lower()
     for row in keyboard_rows:
@@ -41,14 +32,48 @@ def has_keyboard_pattern(password):
                 return True
     return False
 
+# ------------------ STRENGTH BAR ------------------
+def strength_bar(entropy, width=30):
+    # Cap entropy at 100 for display purposes
+    percent = min(int((entropy / 100) * 100), 100)
+    filled = int((percent / 100) * width)
+    empty = width - filled
+
+    if entropy < 30:
+        color = Fore.RED
+        label = "Very Weak"
+    elif entropy < 45:
+        color = Fore.RED
+        label = "Weak"
+    elif entropy < 60:
+        color = Fore.YELLOW
+        label = "Moderate"
+    elif entropy < 80:
+        color = Fore.CYAN
+        label = "Strong"
+    else:
+        color = Fore.GREEN
+        label = "Very Strong"
+
+    bar = "█" * filled + "-" * empty
+    return f"{color}[{bar}] {percent}% ({label})"
 
 
 # ------------------ CRACK TIME ESTIMATION ------------------
-def estimate_crack_time(entropy, guesses_per_second=1_000_000_000):
+ATTACK_MODELS = {
+    "online_limited": ("Online (rate-limited)", 100),
+    "online_unlimited": ("Online (no limits)", 1_000),
+    "offline_pbkdf2": ("Offline (PBKDF2)", 10_000),
+    "offline_gpu": ("Offline GPU (worst case)", 1_000_000_000),
+}
+
+
+def estimate_crack_time(entropy, guesses_per_second):
     if entropy <= 0:
         return "Instant"
 
     seconds = (2 ** entropy) / guesses_per_second
+
     units = [
         ("years", 60 * 60 * 24 * 365),
         ("days", 60 * 60 * 24),
@@ -62,6 +87,7 @@ def estimate_crack_time(entropy, guesses_per_second=1_000_000_000):
             return f"{seconds / value:.2f} {unit}"
 
     return "Instant"
+
 
 # ------------------ ENTROPY CALCULATION ------------------
 def realistic_entropy(password):
@@ -142,11 +168,17 @@ def check_password(password):
         suggestions.append("Add a special character")
 
     entropy = realistic_entropy(password)
-    crack_time = estimate_crack_time(entropy)
 
     print("\nScore:", score, "/5")
     print("Entropy:", entropy, "bits")
-    print("Estimated Crack Time:", crack_time, "\n")
+
+    print("\nPassword Strength:")
+    print(strength_bar(entropy))
+
+    print("\nEstimated Crack Times:")
+    for _, (desc, gps) in ATTACK_MODELS.items():
+        time_est = estimate_crack_time(entropy, gps)
+        print(f"- {desc}: {time_est}")
 
     if entropy >= 80:
         print(Fore.GREEN + "Very Strong")
@@ -163,6 +195,7 @@ def check_password(password):
             print("-", s)
     else:
         print("\nYour password meets all strength criteria!")
+
     print("\nPattern Analysis:")
     if has_repetition(password):
         print(Fore.RED + "- Excessive character repetition detected")
