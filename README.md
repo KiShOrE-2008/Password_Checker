@@ -1,139 +1,151 @@
-# 🔐 Password Strength Analyzer (Python)
+🔐 Password Strength Analyzer (Python)
 
-A **security-aware Python CLI tool** that evaluates password strength using **realistic entropy calculation**, **pattern detection**, and **real-world crack-time models**.  
-The tool also demonstrates **secure password hashing** using PBKDF2 with salt.
+A security-focused Python CLI tool that evaluates password strength using realistic entropy modeling, human-pattern detection, and real-world crack-time estimation — not misleading length checks.
 
-Designed for **cybersecurity learning**, **secure coding practice**, and **defensive security demonstrations**.
+Built for cybersecurity learning, secure coding practice, and defensive security demonstrations.
 
----
+🚀 Why This Project?
 
-## ✨ Key Features
+Most password checkers give false confidence.
+This tool takes a realistic attacker mindset, combining entropy math with common human password weaknesses.
 
-### 🔒 Secure Password Input
-- Masked password entry using `pwinput`
-- Optional password reveal (user-controlled)
+If you're learning cybersecurity, this project shows you actually understand password security — not just regex rules.
 
-### 📊 Realistic Password Strength Analysis
-- Entropy-based strength calculation (not naive length checks)
-- Character pool estimation
-- Unique character ratio penalty
-- Pattern-based entropy reduction
+✨ Features
+🔒 Secure Input & Hashing
 
-### 🧠 Pattern Detection
-Detects common human weaknesses:
-- Excessive character repetition
-- Sequential patterns (`abc`, `123`, etc.)
-- Keyboard patterns (`qwerty`, `asdf`, etc.)
+Hidden password input using pwinput
 
-### 📈 Visual Strength Indicator
-- ASCII **password strength bar**
-- Color-coded output
-- Clear strength labels:
-  - Very Weak
-  - Weak
-  - Moderate
-  - Strong
-  - Very Strong
+Optional password reveal
 
-### ⏱️ Real-World Crack Time Estimation
-Instead of a single misleading value, crack time is estimated across **multiple attacker models**:
+PBKDF2-HMAC-SHA256
 
-| Attack Scenario | Guess Rate |
-|-----------------|-----------|
-| Online (rate-limited) | 100 guesses/sec |
-| Online (no limits) | 1,000 guesses/sec |
-| Offline (PBKDF2 hashes) | 10,000 guesses/sec |
-| Offline GPU (worst case) | 1,000,000,000 guesses/sec |
+128-bit random salt
 
-> ⚠️ Crack times are **theoretical estimates**, not guarantees.
+100,000 iterations
 
-### 🔐 Secure Password Hashing
-- PBKDF2-HMAC-SHA256
-- 128-bit random salt
-- 100,000 iterations
-- Timing-attack-safe hash comparison
+Timing-safe hash comparison
 
-### ⏱ Execution Metrics
-- Measures total password analysis time
-- Clean CLI output for easy readability
+📊 Realistic Strength Analysis
 
----
+True entropy calculation (log₂)
 
-## 🧠 How Password Strength Is Measured
+Character pool estimation
 
-The analyzer evaluates passwords using the following factors:
+Unique character ratio penalty
 
-- Length (minimum recommended: 8 characters)
-- Uppercase letters
-- Lowercase letters
-- Numbers
-- Special characters
-- Entropy calculation using `log₂`
-- Unique character ratio
-- Pattern penalties (repetition, sequences, keyboard patterns)
+Pattern-based entropy reduction
 
----
+🧠 Human Pattern Detection
 
-## 📊 Strength Classification
+Detects common weaknesses:
 
-| Entropy (bits) | Strength |
-|---------------|----------|
-| < 30 | Very Weak 🔴 |
-| 30 – 44 | Weak 🔴 |
-| 45 – 59 | Moderate 🟡 |
-| 60 – 79 | Strong 🔵 |
-| ≥ 80 | Very Strong 🟢 |
+Character repetition (aaaa, 1111)
 
----
+Sequential patterns (abc, 123)
 
-## 🛠 Tech Stack
+Keyboard patterns (qwerty, asdf)
 
-- **Language:** Python 3.x  
-- **Libraries Used:**
-  - `math`
-  - `pwinput`
-  - `colorama`
-  - `hashlib`
-  - `hmac`
-  - `os`
-  - `time`
+📈 Clear Strength Visualization
 
----
+ASCII strength bar
 
-## 📦 Installation
+Color-coded output
 
-Clone the repository:
+Strength levels:
 
-```bash
+Very Weak
+
+Weak
+
+Moderate
+
+Strong
+
+Very Strong
+
+⏱️ Real-World Crack Time Estimation
+
+Crack time is estimated across multiple attacker models, not a single misleading number:
+
+Attack Scenario	Guess Rate
+Online (rate-limited)	100 guesses/sec
+Online (no limits)	1,000 guesses/sec
+Offline (PBKDF2 hashes)	10,000 guesses/sec
+Offline GPU (worst case)	1,000,000,000 guesses/sec
+
+⚠️ Crack times are theoretical estimates, not guarantees.
+
+🧠 How Strength Is Measured
+
+Passwords are evaluated using:
+
+Length (minimum recommended: 8)
+
+Uppercase characters
+
+Lowercase characters
+
+Numbers
+
+Special characters
+
+Entropy calculation (log₂)
+
+Unique character ratio
+
+Pattern penalties (repetition, sequences, keyboard layouts)
+
+📊 Strength Classification
+Entropy (bits)	Rating
+< 30	Very Weak 🔴
+30 – 44	Weak 🔴
+45 – 59	Moderate 🟡
+60 – 79	Strong 🔵
+≥ 80	Very Strong 🟢
+🛠 Tech Stack
+
+Language: Python 3.x
+
+Libraries:
+
+math
+
+pwinput
+
+colorama
+
+hashlib
+
+hmac
+
+os
+
+time
+
+📦 Installation
 git clone https://github.com/KiShOrE-2008/Password_Checker.git
 cd Password_Checker
-Install dependencies:
-
-bash
-Copy code
 pip install pwinput colorama
-▶️ Usage
-Run the program:
 
-bash
-Copy code
+▶️ Usage
 python password_checker.py
-Program Flow:
+
+Program Flow
+
 Enter password (hidden input)
 
-Optionally reveal the password
+Optional password reveal
 
-Password is hashed securely
+Secure hashing (PBKDF2)
 
-Password strength is analyzed
+Strength analysis
 
-Entropy, strength bar, crack times, and pattern warnings are displayed
+Entropy, strength bar, crack times, and warnings displayed
 
-Suggestions are shown if improvements are needed
+Improvement suggestions shown (if needed)
 
 📸 Sample Output
-text
-Copy code
 Entropy: 58.7 bits
 
 Password Strength:
@@ -149,45 +161,37 @@ Pattern Analysis:
 - Sequential pattern detected (123)
 
 Overall Strength: Moderate
+
 ⚠️ Limitations
-Crack times are theoretical estimates
 
-No dictionary or breached-password checking
+Crack times are theoretical
 
-No GUI (CLI only)
+No dictionary or breached-password checks
 
-Not intended for direct production authentication systems
+CLI only (no GUI)
 
-🚀 Future Enhancements
-📚 Dictionary & leetspeak detection
+Not intended for production authentication systems
 
-🔐 Breached-password checking
+🚀 Future Improvements
 
-🧠 Markov-based entropy estimation
+Dictionary & leetspeak detection
 
-🖥 GUI / Web interface
+Breached-password database checks
 
-📦 Modular Python package
+Markov-chain entropy modeling
 
-🔐 Configurable password policy engine
+GUI / Web interface
+
+Modular Python package
+
+Configurable password policy engine
 
 📄 License
-This project is licensed under the MIT License.
-Free to use for learning, academic, and personal projects.
 
-🙌 Author
+MIT License — free for learning, academic, and personal projects.
+
+👤 Author
+
 Kishore K V
 B.Tech – Information Technology
 Cybersecurity & Python Enthusiast
-
-🏁 Final Note
-This project focuses on realistic security modeling, not false confidence.
-It is suitable for:
-
-Cybersecurity learning
-
-Mini-projects
-
-GitHub portfolios
-
-Interview discussions
