@@ -94,8 +94,7 @@ Passwords are evaluated using:
 ```bash
 git clone https://github.com/KiShOrE-2008/Password_Checker.git
 cd Password_Checker
-pip install pwinput colorama
-```
+pip install -r requirements.txt``
 
 ## ▶️ Usage
 
