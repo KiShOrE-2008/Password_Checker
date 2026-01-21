@@ -181,6 +181,8 @@ def check_password(password):
         time_est = estimate_crack_time(entropy, gps)
         print(f"- {desc}: {time_est}")
 
+    print(" ")
+    print("\nOverall Strength Rating:")
     if entropy >= 80:
         print(Fore.GREEN + "Very Strong")
     elif entropy >= 60:
@@ -218,7 +220,6 @@ def hash_password(password, salt=None):
         salt = os.urandom(16) 
     pwd_hash = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100_000)
     return salt, pwd_hash
-
 
 def verify_password(password, salt, stored_hash):
     _, new_hash = hash_password(password, salt)
