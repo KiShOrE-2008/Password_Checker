@@ -7,7 +7,6 @@ import hmac
 from colorama import Fore, Style, init
 init(autoreset=True)
 
-
 def has_repetition(password):
     return len(set(password)) <= len(password) * 0.6
 
@@ -226,13 +225,13 @@ def verify_password(password, salt, stored_hash):
     return hmac.compare_digest(new_hash, stored_hash)
 
 # ------------------ HASH STORAGE & VERIFICATION ------------------
-def hash_and_verify():
+def hash_and_verify(password):
     print("Hashing password securely...")
-    salt, password_hash = hash_password(in_pass)
+    salt, password_hash = hash_password(password)
     time.sleep(1.25)
     print("Verifying password using hash...")
     time.sleep(1.25)
-    if verify_password(in_pass, salt, password_hash):
+    if verify_password(password, salt, password_hash):
         print(Fore.GREEN + "Password verification successful (hash matched)")
     else:
         print(Fore.RED + "Password verification failed (hash mismatch)")
@@ -241,19 +240,23 @@ def hash_and_verify():
     print(" ")
 
 # ------------------ MAIN PROGRAM ------------------
-in_pass = pwinput.pwinput("Enter the password: ")
-print(" ")
+def main():
+    in_pass = pwinput.pwinput("Enter the password: ")
+    print(" ")
 
-ch = input("Press Y to show the typed password or press Enter to continue: ")
-if ch.lower() == 'y':
-    print("\nTyped Password:", in_pass, "\n")
-print(" ")
-hash_and_verify()
-print("\nAnalyzing password strength...")
-time.sleep(1)
-start_time = time.time()
+    ch = input("Press Y to show the typed password or press Enter to continue: ")
+    if ch.lower() == 'y':
+        print("\nTyped Password:", in_pass, "\n")
+    print(" ")
+    hash_and_verify(in_pass)
+    print("\nAnalyzing password strength...")
+    time.sleep(1)
+    start_time = time.time()
 
-check_password(in_pass)
+    check_password(in_pass)
 
-end_time = time.time()
-print(f"Time taken for analysis: {round(end_time - start_time, 2)} seconds\n")
+    end_time = time.time()
+    print(f"Time taken for analysis: {round(end_time - start_time, 2)} seconds\n")
+
+if __name__ == "__main__":
+    main()
