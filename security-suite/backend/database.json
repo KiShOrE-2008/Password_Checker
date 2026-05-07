@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "id": "6f7jctb5t",
+      "username": "Kishore",
+      "password": "$2b$10$yWjnVuamfL0aeD2OelJuGe9SBItneq8EQ81QW0z6TGCsGWQmW8Mr6"
+    }
+  ],
+  "vault": [
+    {
+      "_id": "5gec1zsul",
+      "userId": "6f7jctb5t",
+      "website": "google",
+      "username": "Kishore",
+      "password": "Kishore"
+    }
+  ]
+}

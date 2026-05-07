@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #00f0ff;
+  --color-secondary: #8b929c;
+  --color-dark: #0b0c10;
+  --color-panel: rgba(31, 33, 42, 0.6);
+  --color-veryWeak: #ff4b4b;
+  --color-weak: #ff8e3c;
+  --color-moderate: #f8c630;
+  --color-strong: #20e253;
+  --color-veryStrong: #00f0ff;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  @apply bg-dark text-gray-200 antialiased min-h-screen relative overflow-x-hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-panel backdrop-blur-md border border-primary/20 rounded-2xl p-6 shadow-lg transition-all duration-300;
+  }
+  
+  .glass-panel:hover {
+    @apply border-primary/40 shadow-[0_0_20px_rgba(0,240,255,0.15)];
+  }
+
+  .glow-text {
+    @apply bg-gradient-to-r from-white to-primary bg-clip-text text-transparent;
+  }
+
+  .neon-border {
+    @apply border border-primary/30 shadow-[0_0_10px_rgba(0,240,255,0.2)_inset];
+  }
+}
+
+/* Background grid effect */
+.bg-grid {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: -1;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at 50% 30%, black 10%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at 50% 30%, black 10%, transparent 80%);
+}
+
+.bg-radial {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: -2;
+  background: radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.08) 0%, transparent 60%);
+}

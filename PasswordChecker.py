@@ -1,6 +1,5 @@
 import math
 import pwinput
-import time
 import hashlib
 import os
 import hmac
@@ -34,7 +33,6 @@ def has_keyboard_pattern(password):
 
 # ------------------ STRENGTH BAR ------------------
 def strength_bar(entropy, width=30):
-    # Cap entropy at 100 for display purposes
     percent = min(int((entropy / 100) * 100), 100)
     filled = int((percent / 100) * width)
     empty = width - filled
@@ -107,28 +105,19 @@ def realistic_entropy(password):
     if pool == 0:
         return 0
 
-    # Base entropy
     entropy = len(password) * math.log2(pool)
-
-    # Unique character penalty
     unique_ratio = len(set(password)) / len(password)
     entropy *= unique_ratio
 
-    # Pattern penalties
     penalty = 1.0
-
     if has_repetition(password):
         penalty *= 0.6
-
     if has_sequence(password):
         penalty *= 0.7
-
     if has_keyboard_pattern(password):
         penalty *= 0.7
 
-    # Hard floor to avoid negative nonsense
     entropy = max(entropy * penalty, 0)
-
     return round(entropy, 2)
 
 
@@ -180,7 +169,6 @@ def check_password(password):
         time_est = estimate_crack_time(entropy, gps)
         print(f"- {desc}: {time_est}")
 
-    print(" ")
     print("\nOverall Strength Rating:")
     if entropy >= 80:
         print(Fore.GREEN + "Very Strong")
@@ -201,10 +189,8 @@ def check_password(password):
     print("\nPattern Analysis:")
     if has_repetition(password):
         print(Fore.RED + "- Excessive character repetition detected")
-
     if has_sequence(password):
         print(Fore.RED + "- Sequential pattern detected (abc, 123, etc.)")
-
     if has_keyboard_pattern(password):
         print(Fore.RED + "- Keyboard pattern detected (qwerty, asdf, etc.)")
 
@@ -228,13 +214,13 @@ def verify_password(password, salt, stored_hash):
 def hash_and_verify(password):
     print("Hashing password securely...")
     salt, password_hash = hash_password(password)
-    time.sleep(1.25)
+    
     print("Verifying password using hash...")
-    time.sleep(1.25)
     if verify_password(password, salt, password_hash):
         print(Fore.GREEN + "Password verification successful (hash matched)")
     else:
         print(Fore.RED + "Password verification failed (hash mismatch)")
+        
     print("\nSalt (hex):", salt.hex())
     print("Password Hash (hex):", password_hash.hex())
     print(" ")
@@ -247,16 +233,12 @@ def main():
     ch = input("Press Y to show the typed password or press Enter to continue: ")
     if ch.lower() == 'y':
         print("\nTyped Password:", in_pass, "\n")
+        
     print(" ")
     hash_and_verify(in_pass)
+    
     print("\nAnalyzing password strength...")
-    time.sleep(1)
-    start_time = time.time()
-
     check_password(in_pass)
-
-    end_time = time.time()
-    print(f"Time taken for analysis: {round(end_time - start_time, 2)} seconds\n")
 
 if __name__ == "__main__":
     main()

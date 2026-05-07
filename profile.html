@@ -47,16 +47,21 @@
     <script src="auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Check if user is logged in
-            if (!sessionStorage.getItem('loggedInUser')) {
-                // Not logged in, redirect to login page
-                window.location.href = 'login.html';
-                return;
-            }
-
-            // Display username
             const username = sessionStorage.getItem('loggedInUser');
-            document.getElementById('profile-username').textContent = '@' + username;
+            if (!username) {
+                // Show as Guest instead of redirecting
+                document.getElementById('profile-username').textContent = 'Guest User';
+                
+                // Change Logout button to a Login button for guests
+                const authBtn = document.getElementById('logout-btn');
+                if(authBtn) {
+                    authBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login / Register';
+                    authBtn.onclick = () => window.location.href = 'login.html';
+                }
+            } else {
+                // Display logged-in username
+                document.getElementById('profile-username').textContent = '@' + username;
+            }
         });
     </script>
 </body>

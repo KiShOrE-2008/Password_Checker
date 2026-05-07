@@ -12,6 +12,11 @@
     <div class="background-animation"></div>
     
     <div class="container auth-container">
+        <div class="top-bar">
+            <a href="profile.html" class="profile-btn" title="View Profile">
+                <i class="fa-solid fa-user-circle"></i> Profile
+            </a>
+        </div>
         <header>
             <h1><i class="fa-solid fa-user-plus"></i> Create Account</h1>
             <p>Join to access the Password Strength Analyzer</p>
@@ -76,6 +81,12 @@
 
                 if (pass.length < 8) {
                     errorMsg.textContent = "Password must be at least 8 characters long.";
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+
+                if (!/[A-Z]/.test(pass) || !/[a-z]/.test(pass) || !/[0-9]/.test(pass) || !/[!@#$%^&*(),.?":{}|<>]/.test(pass)) {
+                    errorMsg.textContent = "Password must contain an uppercase letter, lowercase letter, number, and special character.";
                     errorMsg.style.display = 'block';
                     return;
                 }
