@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Advanced Password Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="container auth-container" style="max-width: 600px;">
+        <div class="top-bar">
+            <a href="index.html" class="profile-btn" style="margin-right: auto;">
+                <i class="fa-solid fa-arrow-left"></i> Back to Analyzer
+            </a>
+            <button id="logout-btn" class="logout-btn" onclick="logoutUser()">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+        </div>
+
+        <header>
+            <h1><i class="fa-solid fa-address-card"></i> User Profile</h1>
+        </header>
+
+        <div class="glass-panel" style="text-align: center;">
+            <div class="profile-avatar">
+                <i class="fa-solid fa-user-astronaut"></i>
+            </div>
+            <h2 id="profile-username" style="color: var(--primary); font-size: 2rem; margin: 1rem 0;">Loading...</h2>
+            
+            <div class="profile-stats">
+                <div class="stat-box">
+                    <span class="stat-value">Active</span>
+                    <span class="stat-label">Account Status</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">Local</span>
+                    <span class="stat-label">Auth Method</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user is logged in
+            if (!sessionStorage.getItem('loggedInUser')) {
+                // Not logged in, redirect to login page
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Display username
+            const username = sessionStorage.getItem('loggedInUser');
+            document.getElementById('profile-username').textContent = '@' + username;
+        });
+    </script>
+</body>
+</html>

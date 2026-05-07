@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Advanced Password Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="container auth-container">
+        <header>
+            <h1><i class="fa-solid fa-user-plus"></i> Create Account</h1>
+            <p>Join to access the Password Strength Analyzer</p>
+        </header>
+
+        <div class="glass-panel form-panel">
+            <form id="register-form">
+                <div id="error-message" class="error-message"></div>
+                <div id="success-message" class="success-message" style="display: none;"></div>
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-user input-icon"></i>
+                    <input type="text" id="username" class="auth-input" placeholder="Choose a Username" required autocomplete="username">
+                </div>
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" id="password" class="auth-input" placeholder="Create a Password" required autocomplete="new-password">
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" id="confirm-password" class="auth-input" placeholder="Confirm Password" required autocomplete="new-password">
+                </div>
+                
+                <button type="submit" class="primary-btn">Register</button>
+            </form>
+            <div class="auth-links">
+                <p>Already have an account? <a href="login.html">Login here</a></p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="index.html" style="color: var(--text-muted); font-size: 0.95rem; text-decoration: none;">
+                        Skip & Continue as Guest <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            redirectIfLoggedIn();
+
+            const registerForm = document.getElementById('register-form');
+            const errorMsg = document.getElementById('error-message');
+            const successMsg = document.getElementById('success-message');
+
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                errorMsg.style.display = 'none';
+                successMsg.style.display = 'none';
+
+                const user = document.getElementById('username').value.trim();
+                const pass = document.getElementById('password').value;
+                const confirmPass = document.getElementById('confirm-password').value;
+
+                if (pass !== confirmPass) {
+                    errorMsg.textContent = "Passwords do not match!";
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+
+                if (pass.length < 8) {
+                    errorMsg.textContent = "Password must be at least 8 characters long.";
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+
+                const result = registerUser(user, pass);
+                if (result.success) {
+                    successMsg.textContent = "Registration successful! Redirecting to login...";
+                    successMsg.style.display = 'block';
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1500);
+                } else {
+                    errorMsg.textContent = result.message;
+                    errorMsg.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced Password Strength Analyzer">
+    <title>Advanced Password Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="container">
+        <div class="top-bar">
+            <a href="profile.html" class="profile-btn" title="View Profile">
+                <i class="fa-solid fa-user-circle"></i> Profile
+            </a>
+        </div>
+        <header>
+            <h1><i class="fa-solid fa-shield-halved"></i> Password Strength Analyzer</h1>
+            <p>Real-world entropy modeling and crack-time estimation</p>
+        </header>
+
+        <div class="input-section glass-panel">
+            <div class="input-group">
+                <input type="password" id="password-input" placeholder="Enter your password..." autocomplete="off">
+                <button id="toggle-visibility" type="button"><i class="fa-solid fa-eye"></i></button>
+            </div>
+            
+            <div class="strength-meter">
+                <div class="strength-bar-bg">
+                    <div id="strength-bar-fill" class="strength-bar-fill"></div>
+                </div>
+                <div class="strength-labels">
+                    <span id="strength-text">Awaiting Input...</span>
+                    <span id="entropy-text">0 bits</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-grid">
+            <!-- Crack Times -->
+            <div class="card glass-panel crack-times-card">
+                <h2><i class="fa-solid fa-stopwatch"></i> Estimated Crack Times</h2>
+                
+                <div class="main-crack-time">
+                    <span class="crack-label main-label">Worst Case (Offline GPU Cluster) <i class="fa-solid fa-fire-flame-curved" style="color: var(--color-very-weak); margin-left: 5px;"></i></span>
+                    <div id="time-offline-gpu" class="crack-value main-value">--</div>
+                </div>
+
+                <div class="crack-grid">
+                    <div class="crack-item">
+                        <span class="crack-label">Offline (PBKDF2)</span>
+                        <span id="time-offline-pbkdf2" class="crack-value">--</span>
+                    </div>
+                    <div class="crack-item">
+                        <span class="crack-label">Online (no limits)</span>
+                        <span id="time-online-unlimited" class="crack-value">--</span>
+                    </div>
+                    <div class="crack-item">
+                        <span class="crack-label">Online (rate-limited)</span>
+                        <span id="time-online-limited" class="crack-value">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis & Suggestions -->
+            <div class="card glass-panel analysis-card">
+                <h2><i class="fa-solid fa-microscope"></i> Pattern Analysis</h2>
+                <ul id="analysis-list" class="analysis-list">
+                    <li class="neutral">Enter a password to begin analysis.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="hash-section glass-panel">
+            <h2><i class="fa-solid fa-fingerprint"></i> Secure Hash Demo (PBKDF2)</h2>
+            <div class="hash-content">
+                <div class="hash-row">
+                    <span class="hash-label">Salt:</span>
+                    <span id="salt-output" class="hash-value mono">--</span>
+                </div>
+                <div class="hash-row">
+                    <span class="hash-label">Hash:</span>
+                    <span id="hash-output" class="hash-value mono">--</span>
+                </div>
+            </div>
+            <p class="hash-note">*Simulated via Web Crypto API in your browser. No data leaves your device.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

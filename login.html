@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Advanced Password Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="container auth-container">
+        <header>
+            <h1><i class="fa-solid fa-user-lock"></i> Secure Login</h1>
+            <p>Access the Password Strength Analyzer</p>
+        </header>
+
+        <div class="glass-panel form-panel">
+            <form id="login-form">
+                <div id="error-message" class="error-message"></div>
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-user input-icon"></i>
+                    <input type="text" id="username" class="auth-input" placeholder="Username" required autocomplete="username">
+                </div>
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" id="password" class="auth-input" placeholder="Password" required autocomplete="current-password">
+                </div>
+                
+                <button type="submit" class="primary-btn">Login</button>
+            </form>
+            <div class="auth-links">
+                <p>Don't have an account? <a href="register.html">Register here</a></p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="index.html" style="color: var(--text-muted); font-size: 0.95rem; text-decoration: none;">
+                        Skip & Continue as Guest <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            redirectIfLoggedIn();
+
+            const loginForm = document.getElementById('login-form');
+            const errorMsg = document.getElementById('error-message');
+
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const user = document.getElementById('username').value.trim();
+                const pass = document.getElementById('password').value;
+
+                const result = loginUser(user, pass);
+                if (result.success) {
+                    window.location.href = 'index.html';
+                } else {
+                    errorMsg.textContent = result.message;
+                    errorMsg.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
