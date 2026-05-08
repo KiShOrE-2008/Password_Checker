@@ -10,6 +10,8 @@
 [![Node.js](https://img.shields.io/badge/Node.js-Express-green.svg?style=for-the-badge&logo=node.js)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248.svg?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
 
+🚀 **Live Demo:** [https://password-checker-rose.vercel.app/](https://password-checker-rose.vercel.app/)
+
 </div>
 
 ---
