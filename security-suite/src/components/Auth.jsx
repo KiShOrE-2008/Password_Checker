@@ -41,9 +41,11 @@ const Auth = ({ onLogin, onContinueAsGuest }) => {
         body: JSON.stringify({ username, password })
       });
       
-      const data = await response.json();
+      const isJson = response.headers.get('content-type')?.includes('application/json');
+      const data = isJson ? await response.json() : null;
+
       if (!response.ok) {
-        setError(data.message || 'Authentication failed');
+        setError(data?.message || `Server error: ${response.status} ${response.statusText}`);
         return;
       }
       
@@ -51,7 +53,8 @@ const Auth = ({ onLogin, onContinueAsGuest }) => {
       sessionStorage.setItem('loggedInUser', data.username);
       onLogin(data.username);
     } catch (err) {
-      setError('Failed to connect to the server. Ensure the backend is running on port 5000.');
+      console.error(err);
+      setError(`Network Error: ${err.message}`);
     }
   };
 
