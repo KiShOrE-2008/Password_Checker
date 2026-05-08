@@ -1,6 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Activity, AlertTriangle, ShieldCheck, Clock, CheckCircle2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Activity, AlertTriangle, ShieldCheck, Clock, CheckCircle2, Database } from 'lucide-react';
 
 const strengthColors = {
   0: 'bg-veryWeak shadow-[0_0_10px_rgba(255,75,75,0.8)]',
@@ -12,7 +12,7 @@ const strengthColors = {
 
 const strengthLabels = ['Very Weak', 'Weak', 'Moderate', 'Strong', 'Very Strong'];
 
-const Analyzer = ({ password, analysis }) => {
+const Analyzer = ({ password, analysis, onStoreSecure }) => {
   if (!password) {
     return (
       <div className="glass-panel text-center py-12 text-secondary">
@@ -103,6 +103,31 @@ const Analyzer = ({ password, analysis }) => {
           )}
         </div>
       </div>
+
+      {/* Secure Storage Option */}
+      <AnimatePresence>
+        {score >= 3 && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, height: 0 }}
+            className="pt-4 mt-6 border-t border-white/10"
+          >
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-primary/5 border border-primary/20 rounded-xl p-4">
+              <div>
+                <h4 className="text-primary font-bold">Excellent Entropy Detected</h4>
+                <p className="text-sm text-secondary mt-1">This payload meets strict cryptographic standards.</p>
+              </div>
+              <button 
+                onClick={() => onStoreSecure && onStoreSecure(password)}
+                className="flex items-center gap-2 px-6 py-3 bg-primary text-black rounded-lg hover:bg-[#5ffff0] transition-colors font-bold whitespace-nowrap shadow-[0_0_10px_rgba(0,240,255,0.3)] hover:shadow-[0_0_15px_rgba(0,240,255,0.6)]"
+              >
+                <Database className="w-5 h-5" /> Save to Vault
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

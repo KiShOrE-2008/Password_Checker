@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Database, Plus, Trash2, Globe, User, Lock, Eye, EyeOff } from 'lucide-react';
 
-const Vault = () => {
+const Vault = ({ initialPassword = '' }) => {
   const [vaultItems, setVaultItems] = useState([]);
   const [website, setWebsite] = useState('');
   const [username, setUsername] = useState('');
@@ -31,6 +31,13 @@ const Vault = () => {
   useEffect(() => {
     fetchVault();
   }, [token]);
+
+  useEffect(() => {
+    if (initialPassword) {
+      setPassword(initialPassword);
+      setIsAdding(true);
+    }
+  }, [initialPassword]);
 
   const handleAddItem = async (e) => {
     e.preventDefault();

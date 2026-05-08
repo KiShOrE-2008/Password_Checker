@@ -14,6 +14,7 @@ function App() {
   const [showPassword, setShowPassword] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('analyzer'); // analyzer | vault | generator
+  const [vaultInitialPassword, setVaultInitialPassword] = useState('');
   
   // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState(!!sessionStorage.getItem('loggedInUser') || sessionStorage.getItem('guestMode') === 'true');
@@ -37,6 +38,11 @@ function App() {
   const handleSetPassword = (pwd) => {
     setPassword(pwd);
     setActiveTab('analyzer');
+  };
+
+  const handleStoreSecurePassword = (pwd) => {
+    setVaultInitialPassword(pwd);
+    setActiveTab('vault');
   };
 
   return (
@@ -110,7 +116,7 @@ function App() {
                 </div>
               </div>
 
-              <Analyzer password={password} analysis={analysis} />
+              <Analyzer password={password} analysis={analysis} onStoreSecure={handleStoreSecurePassword} />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -127,7 +133,7 @@ function App() {
         {/* PAGE 2: SECURE VAULT */}
         {activeTab === 'vault' && (
           <div className="max-w-4xl mx-auto">
-            <Vault />
+            <Vault initialPassword={vaultInitialPassword} />
           </div>
         )}
 
