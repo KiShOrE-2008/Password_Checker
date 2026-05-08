@@ -10,6 +10,8 @@ const Auth = ({ onLogin, onContinueAsGuest }) => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState('Establishing Secure Connection...');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +38,9 @@ const Auth = ({ onLogin, onContinueAsGuest }) => {
     }
 
     try {
+      setIsLoading(true);
+      setLoadingText(isLogin ? 'Authenticating Credentials...' : 'Generating Cryptographic Keys...');
+
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -47,18 +52,71 @@ const Auth = ({ onLogin, onContinueAsGuest }) => {
       const data = isJson ? await response.json() : null;
 
       if (!response.ok) {
+        setIsLoading(false);
         setError(data?.message || `Server error: ${response.status} ${response.statusText}`);
         return;
       }
       
       sessionStorage.setItem('token', data.token);
       sessionStorage.setItem('loggedInUser', data.username);
-      onLogin(data.username);
+      
+      setLoadingText('Access Granted. Initializing Dashboard...');
+      setTimeout(() => {
+        onLogin(data.username);
+      }, 1500);
     } catch (err) {
       console.error(err);
+      setIsLoading(false);
       setError(`Network Error: ${err.message}`);
     }
   };
+
+  const handleGuestLogin = () => {
+    setIsLoading(true);
+    setLoadingText('Initializing Guest Environment...');
+    setTimeout(() => {
+      onContinueAsGuest();
+    }, 1500);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-dark text-white p-4">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center flex flex-col items-center gap-8"
+        >
+          <motion.div 
+            animate={{ 
+              boxShadow: ['0 0 20px rgba(0,240,255,0.2)', '0 0 60px rgba(0,240,255,0.8)', '0 0 20px rgba(0,240,255,0.2)'],
+              scale: [1, 1.1, 1]
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center border border-primary/50 relative"
+          >
+            <Shield className="w-12 h-12 text-primary absolute" />
+            <motion.div 
+              animate={{ rotate: 360 }} 
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              className="w-full h-full rounded-full border-t-2 border-r-2 border-transparent border-t-primary opacity-70"
+            />
+          </motion.div>
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold glow-text tracking-wide">{loadingText}</h2>
+            <div className="w-64 h-1 bg-white/10 rounded-full overflow-hidden mx-auto">
+              <motion.div 
+                initial={{ width: '0%' }}
+                animate={{ width: '100%' }}
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+                className="h-full bg-primary shadow-[0_0_10px_rgba(0,240,255,0.8)]"
+              />
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-dark text-white p-4">
@@ -176,7 +234,7 @@ const Auth = ({ onLogin, onContinueAsGuest }) => {
 
           <div className="mt-8 text-center border-t border-white/10 pt-6">
             <button 
-              onClick={onContinueAsGuest}
+              onClick={handleGuestLogin}
               className="text-secondary hover:text-primary transition-colors text-sm flex items-center justify-center gap-2 mx-auto group"
             >
               Skip & Continue as Guest
