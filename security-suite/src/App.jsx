@@ -94,7 +94,7 @@ function App() {
         {/* PAGE 1: ANALYZER DASHBOARD */}
         {activeTab === 'analyzer' && (
           <div className="space-y-12">
-            <div className="max-w-4xl mx-auto space-y-8">
+            <div className="max-w-4xl mx-auto mb-8">
               <div className="glass-panel">
                 <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2 text-primary justify-center">
                   <Key className="w-6 h-6" /> Target Input
@@ -115,16 +115,15 @@ function App() {
                   </button>
                 </div>
               </div>
-
-              <Analyzer password={password} analysis={analysis} onStoreSecure={handleStoreSecurePassword} />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
               <div className="space-y-8">
-                <HashDemo password={password} />
+                <Analyzer password={password} analysis={analysis} onStoreSecure={handleStoreSecurePassword} />
               </div>
               <div className="space-y-8">
                 <BreachChecker password={password} />
+                <HashDemo password={password} />
               </div>
             </div>
           </div>
