@@ -10,6 +10,7 @@ const Vault = ({ initialPassword = '' }) => {
   const [error, setError] = useState('');
   const [isAdding, setIsAdding] = useState(false);
   const [showPasswords, setShowPasswords] = useState({});
+  const [showInputPassword, setShowInputPassword] = useState(false);
 
   const token = sessionStorage.getItem('token');
 
@@ -141,10 +142,18 @@ const Vault = ({ initialPassword = '' }) => {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-4 h-4" />
                 <input 
-                  type="text" placeholder="Password" 
+                  type={showInputPassword ? "text" : "password"} 
+                  placeholder="Password" 
                   value={password} onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg py-2 pl-9 pr-3 text-white focus:border-primary focus:outline-none"
+                  className="w-full bg-black/50 border border-white/10 rounded-lg py-2 pl-9 pr-10 text-white focus:border-primary focus:outline-none"
                 />
+                <button 
+                  type="button"
+                  onClick={() => setShowInputPassword(!showInputPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-primary transition-colors"
+                >
+                  {showInputPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
               </div>
             </div>
             <button type="submit" className="w-full bg-primary/20 hover:bg-primary text-primary hover:text-black py-3 rounded-lg transition-colors font-bold mt-2">
