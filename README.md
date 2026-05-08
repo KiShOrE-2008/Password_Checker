@@ -1,157 +1,106 @@
-# 🔐 Password Strength Analyzer (Python)
+<div align="center">
+  
+# 🛡️ Vanguard Security Suite
 
-A security-focused Python CLI tool that evaluates password strength using realistic entropy modeling, human-pattern detection, and real-world crack-time estimation — not misleading length checks.
+**Next-Generation Password Intelligence & Cryptography Dashboard**
 
-Built for cybersecurity learning, secure coding practice, and defensive security demonstrations.
+[![React](https://img.shields.io/badge/React-19.2-blue.svg?style=for-the-badge&logo=react)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-8.0-purple.svg?style=for-the-badge&logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2-38B2AC.svg?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-Express-green.svg?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248.svg?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
 
-## 🚀 Why This Project?
+</div>
 
-Most password checkers give false confidence. This tool takes a realistic attacker mindset, combining entropy math with common human password weaknesses.
+---
 
-If you're learning cybersecurity, this project shows you actually understand password security — not just regex rules.
+## 📖 Overview
 
-## ✨ Features
+Vanguard Security Suite is a full-stack MERN (MongoDB, Express, React, Node.js) web application designed to evaluate password strength, generate highly secure cryptographic keys, and safely store your credentials in an encrypted, cloud-synced vault. 
 
-### 🔒 Secure Input & Hashing
-- Hidden password input using `pwinput`
-- Optional password reveal
-- PBKDF2-HMAC-SHA256
-- 128-bit random salt
-- 100,000 iterations
-- Timing-safe hash comparison
+Built with a **Zero-Knowledge Philosophy**, the live intelligence analyzer processes all password entropy and offline crack-time estimates completely client-side. Passwords typed into the analyzer are *never* transmitted over the network.
 
-### 📊 Realistic Strength Analysis
-- True entropy calculation (log₂)
-- Character pool estimation
-- Unique character ratio penalty
-- Pattern-based entropy reduction
+## ✨ Core Features
 
-### 🧠 Human Pattern Detection
-Detects common weaknesses:
-- Character repetition (aaaa, 1111)
-- Sequential patterns (abc, 123)
-- Keyboard patterns (qwerty, asdf)
+- 🧠 **Live Intelligence Analyzer**: Real-time evaluation of password strength, detecting exact bit entropy and calculating human-readable crack times (ranging from seconds to "Lifespans of the Universe").
+- 🔒 **Secure Password Vault**: A personal, JWT-authenticated database to securely store and manage your credentials across different websites.
+- ⚙️ **Cryptographic Generator**: Build highly secure, customized passwords (up to 64 characters) based on strict alphanumeric and symbolic constraints.
+- 🚨 **Breach Checker**: Live integration checking to see if your payloads exist in known public data breaches.
+- 🎨 **Neon Cyberpunk UI**: A beautiful, fully responsive glassmorphism UI powered by Tailwind CSS v4 and Framer Motion.
 
-### 📈 Clear Strength Visualization
-- ASCII strength bar
-- Color-coded output
-- Strength levels:
-  - Very Weak
-  - Weak
-  - Moderate
-  - Strong
-  - Very Strong
+## 🛠️ Tech Stack
 
-### ⏱️ Real-World Crack Time Estimation
-Crack time is estimated across multiple attacker models, not a single misleading number:
+### Frontend (Client)
+- **Framework:** React + Vite
+- **Styling:** Tailwind CSS (Custom Dark Neon Theme)
+- **Animations:** Framer Motion
+- **Icons:** Lucide React
+- **Analysis:** Zxcvbn
 
-| Attack Scenario | Guess Rate |
-| :--- | :--- |
-| Online (rate-limited) | 100 guesses/sec |
-| Online (no limits) | 1,000 guesses/sec |
-| Offline (PBKDF2 hashes) | 10,000 guesses/sec |
-| Offline GPU (worst case) | 1,000,000,000 guesses/sec |
+### Backend (Server)
+- **Runtime:** Node.js + Express.js
+- **Database:** MongoDB via Mongoose
+- **Authentication:** bcryptjs (Hashing) + jsonwebtoken (JWT)
+- **Architecture:** Configured as Vercel Serverless Functions
 
-> [!WARNING]
-> Crack times are theoretical estimates, not guarantees.
+---
 
-## 🧠 How Strength Is Measured
+## 🚀 Local Development Setup
 
-Passwords are evaluated using:
-- Length (minimum recommended: 8)
-- Uppercase characters
-- Lowercase characters
-- Numbers
-- Special characters
-- Entropy calculation (log₂)
-- Unique character ratio
-- Pattern penalties (repetition, sequences, keyboard layouts)
+To run the Vanguard Security Suite locally on your machine:
 
-### 📊 Strength Classification
-
-| Entropy (bits) | Rating |
-| :--- | :--- |
-| < 30 | Very Weak 🔴 |
-| 30 – 44 | Weak 🔴 |
-| 45 – 59 | Moderate 🟡 |
-| 60 – 79 | Strong 🔵 |
-| ≥ 80 | Very Strong 🟢 |
-
-## 🛠 Tech Stack
-
-- **Language**: Python 3.x
-- **Libraries**:
-  - `math`
-  - `pwinput`
-  - `colorama`
-  - `hashlib`
-  - `hmac`
-  - `os`
-  - `time`
-
-## 📦 Installation
-
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/KiShOrE-2008/Password_Checker.git
-cd Password_Checker
-pip install -r requirements.txt``
-
-## ▶️ Usage
-
-```bash
-python password_checker.py
+git clone https://github.com/yourusername/PasswordChecker.git
+cd PasswordChecker/security-suite
 ```
 
-### Program Flow
-1. Enter password (hidden input)
-2. Optional password reveal
-3. Secure hashing (PBKDF2)
-4. Strength analysis
-5. Entropy, strength bar, crack times, and warnings displayed
-6. Improvement suggestions shown (if needed)
-
-## 📸 Sample Output
-
-```text
-Entropy: 58.7 bits
-
-Password Strength:
-[██████████████████------------] 58% (Moderate)
-
-Estimated Crack Times:
-- Online (rate-limited): 1.9 days
-- Online (no limits): 4.6 hours
-- Offline (PBKDF2): 23 seconds
-- Offline GPU (worst case): Instant
-
-Pattern Analysis:
-- Sequential pattern detected (123)
-
-Overall Strength: Moderate
+### 2. Install Dependencies
+```bash
+npm install
 ```
 
-## ⚠️ Limitations
+### 3. Environment Configuration
+Create a `.env` file inside the `security-suite/backend` folder and add your MongoDB Atlas connection string:
+```env
+MONGO_URI="mongodb+srv://<username>:<password>@cluster.mongodb.net/vanguard-security?retryWrites=true&w=majority"
+JWT_SECRET="your_super_secret_jwt_key"
+```
 
-- Crack times are theoretical
-- No dictionary or breached-password checks
-- CLI only (no GUI)
-- Not intended for production authentication systems
+### 4. Start the Application
+Because this is a full-stack application, you will need two terminal windows.
 
-## 🚀 Future Improvements
+**Terminal 1 (React Frontend):**
+```bash
+# Inside the security-suite directory
+npm run dev
+```
 
-- [ ] Dictionary & leetspeak detection
-- [ ] Breached-password database checks
-- [ ] Markov-chain entropy modeling
-- [ ] GUI / Web interface
-- [ ] Modular Python package
-- [ ] Configurable password policy engine
+**Terminal 2 (Express Backend):**
+```bash
+# Inside the security-suite/backend directory
+node server.js
+```
 
-## 📄 License
+---
 
-MIT License — free for learning, academic, and personal projects.
+## ☁️ Deploying to Vercel
 
-## 👤 Author
+This repository is pre-configured as a Monorepo for seamless, 1-click deployments to Vercel. Both the React SPA and the Express backend (via Serverless Functions) will deploy simultaneously.
 
-**Kishore K V**
-- B.Tech – Information Technology
-- Cybersecurity & Python Enthusiast
+1. Import this GitHub repository into your Vercel Dashboard.
+2. Under **Project Settings**, configure the following:
+   - **Root Directory:** `security-suite`
+   - **Framework Preset:** `Vite`
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `dist`
+3. Under **Environment Variables**, add:
+   - **Key:** `MONGO_URI`
+   - **Value:** `mongodb+srv://<username>:<password>@cluster...`
+4. Click **Deploy**. Vercel will automatically read the `vercel.json` routing configuration and deploy the suite!
+
+---
+
+## 🛡️ Security Disclaimer
+
+While Vanguard Security Suite uses standard cryptographic practices (bcrypt hashing, JWT, Mongoose schemas), it is built as an educational/portfolio project. Do not use this application to store highly sensitive banking or government credentials unless deployed on a privately secured and audited infrastructure.
