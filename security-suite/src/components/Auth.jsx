@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, UserPlus, LogIn, Mail, Lock, User, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
-const Auth = ({ onLogin, onContinueAsGuest }) => {
+const Auth = ({ onLogin, onContinueAsGuest, setGlobalError }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -53,7 +53,11 @@ const Auth = ({ onLogin, onContinueAsGuest }) => {
 
       if (!response.ok) {
         setIsLoading(false);
-        setError(data?.message || `Server error: ${response.status} ${response.statusText}`);
+        if (response.status === 404 || response.status >= 500) {
+          if (setGlobalError) setGlobalError({ statusCode: response.status });
+        } else {
+          setError(data?.message || `Server error: ${response.status} ${response.statusText}`);
+        }
         return;
       }
       
@@ -67,6 +71,7 @@ const Auth = ({ onLogin, onContinueAsGuest }) => {
     } catch (err) {
       console.error(err);
       setIsLoading(false);
+      if (setGlobalError) setGlobalError({ statusCode: 'NETWORK_ERROR' });
       setError(`Network Error: ${err.message}`);
     }
   };

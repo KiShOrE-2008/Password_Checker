@@ -8,8 +8,10 @@ import HashDemo from './components/HashDemo';
 import ProfileModal from './components/ProfileModal';
 import Auth from './components/Auth';
 import Vault from './components/Vault';
+import ErrorPage from './components/ErrorPage';
 
 function App() {
+  const [globalError, setGlobalError] = useState(null); // e.g. { statusCode: 404, message: '...' }
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -30,8 +32,22 @@ function App() {
     setIsAuthenticated(true);
   };
 
+  if (globalError) {
+    return (
+      <ErrorPage 
+        statusCode={globalError.statusCode} 
+        message={globalError.message} 
+        onRetry={() => setGlobalError(null)} 
+        onHome={() => {
+          setGlobalError(null);
+          setActiveTab('analyzer');
+        }} 
+      />
+    );
+  }
+
   if (!isAuthenticated) {
-    return <Auth onLogin={handleLogin} onContinueAsGuest={handleContinueAsGuest} />;
+    return <Auth onLogin={handleLogin} onContinueAsGuest={handleContinueAsGuest} setGlobalError={setGlobalError} />;
   }
 
   // Intercept the generator inject button to switch back to analyzer
@@ -132,7 +148,7 @@ function App() {
         {/* PAGE 2: SECURE VAULT */}
         {activeTab === 'vault' && (
           <div className="max-w-4xl mx-auto">
-            <Vault initialPassword={vaultInitialPassword} />
+            <Vault initialPassword={vaultInitialPassword} setGlobalError={setGlobalError} />
           </div>
         )}
 

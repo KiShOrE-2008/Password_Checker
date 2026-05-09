@@ -107,4 +107,22 @@ app.delete('/api/vault/:id', authenticateToken, async (req, res) => {
   }
 });
 
+// --- GLOBAL ERROR HANDLERS ---
+// Handle 404 - Unknown API routes
+app.use((req, res, next) => {
+  res.status(404).json({
+    status: 404,
+    message: 'API route not found'
+  });
+});
+
+// Handle 500 - Global Server Error
+app.use((err, req, res, next) => {
+  console.error('Unhandled Error:', err);
+  res.status(err.status || 500).json({
+    status: err.status || 500,
+    message: err.message || 'Internal Server Error'
+  });
+});
+
 export default app;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Database, Plus, Trash2, Globe, User, Lock, Eye, EyeOff } from 'lucide-react';
 
-const Vault = ({ initialPassword = '' }) => {
+const Vault = ({ initialPassword = '', setGlobalError }) => {
   const [vaultItems, setVaultItems] = useState([]);
   const [website, setWebsite] = useState('');
   const [username, setUsername] = useState('');
@@ -23,9 +23,12 @@ const Vault = ({ initialPassword = '' }) => {
       if (res.ok) {
         const data = await res.json();
         setVaultItems(data);
+      } else if (res.status === 404 || res.status >= 500) {
+        if (setGlobalError) setGlobalError({ statusCode: res.status });
       }
     } catch (err) {
       console.error('Failed to fetch vault', err);
+      if (setGlobalError) setGlobalError({ statusCode: 'NETWORK_ERROR' });
     }
   };
 
@@ -65,9 +68,14 @@ const Vault = ({ initialPassword = '' }) => {
         setError('');
         fetchVault();
       } else {
-        setError('Failed to add item');
+        if (res.status === 404 || res.status >= 500) {
+          if (setGlobalError) setGlobalError({ statusCode: res.status });
+        } else {
+          setError('Failed to add item');
+        }
       }
     } catch (err) {
+      if (setGlobalError) setGlobalError({ statusCode: 'NETWORK_ERROR' });
       setError('Server connection error');
     }
   };
